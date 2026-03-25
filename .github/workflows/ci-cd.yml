@@ -55,6 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CI: true
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     defaults:
       run:
         working-directory: backend
