@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseController } from './database/database.controller';
-import { DatabaseService } from './database/database.service';
-import { createTypeOrmOptions } from './database/typeorm.config';
-import { UsersModule } from './users/users.module';
+import { DatabaseModule } from './database/database.module';
+
+const databaseImports = process.env.NODE_ENV === 'test' ? [] : [DatabaseModule];
 
 @Module({
   imports: [
@@ -14,13 +12,9 @@ import { UsersModule } from './users/users.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: createTypeOrmOptions,
-    }),
-    UsersModule,
+    ...databaseImports,
   ],
-  controllers: [AppController, DatabaseController],
-  providers: [AppService, DatabaseService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
