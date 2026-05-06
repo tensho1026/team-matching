@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { DatabaseController } from './database/database.controller';
 import { DatabaseService } from './database/database.service';
 import { createTypeOrmOptions } from './database/typeorm.config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { createTypeOrmOptions } from './database/typeorm.config';
       inject: [ConfigService],
       useFactory: createTypeOrmOptions,
     }),
+    UsersModule,
   ],
   controllers: [AppController, DatabaseController],
   providers: [AppService, DatabaseService],

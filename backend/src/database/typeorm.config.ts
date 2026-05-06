@@ -20,7 +20,7 @@ export function createTypeOrmOptions(
     type: 'postgres',
     url: normalizedDatabaseUrl.toString(),
     autoLoadEntities: true,
-    synchronize: false,
+    synchronize: true,
     ssl: {
       rejectUnauthorized: false,
     },
