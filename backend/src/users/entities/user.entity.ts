@@ -1,4 +1,3 @@
-// users/entities/user.entity.ts
 import {
   Column,
   CreateDateColumn,
@@ -13,13 +12,13 @@ export class User {
   id: string;
 
   @Column({ unique: true })
-  githubId: string;
+  email: string;
 
   @Column()
-  username: string;
+  passwordHash: string;
 
-  @Column({ nullable: true })
-  email?: string;
+  @Column()
+  name: string;
 
   @CreateDateColumn()
   createdAt: Date;
