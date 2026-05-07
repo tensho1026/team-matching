@@ -3,7 +3,7 @@ import {
   Bell,
   BriefcaseBusiness,
   CheckSquare,
-  GitPullRequest,
+  LogIn,
   MessageSquare,
   Search,
   Send,
@@ -28,7 +28,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: 'ダッシュボード', path: '/', icon: BriefcaseBusiness },
-  { label: 'ログイン', path: '/login', icon: GitPullRequest },
+  { label: 'ログイン', path: '/login', icon: LogIn },
   { label: 'プロフィール', path: '/profile', icon: UserRound },
   { label: '募集一覧', path: '/recruitments', icon: Search },
   { label: '募集投稿', path: '/recruitments/new', icon: Send },

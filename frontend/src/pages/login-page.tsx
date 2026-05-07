@@ -5,8 +5,8 @@ export function LoginPage() {
   return (
     <div className="grid max-w-xl gap-6">
       <SectionHeading
-        title="ログイン"
-        description="GitHub認証を前提にしたログインフォームUI"
+        title="ログイン / 新規登録"
+        description="メールアドレスとパスワードで利用する認証フォーム"
       />
       <LoginPanel />
     </div>

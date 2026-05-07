@@ -43,7 +43,7 @@ export function RecruitmentPostPanel() {
             <Textarea defaultValue="チーム開発のメンバー募集と応募管理をできるWebサービスを作ります。" />
           </FormField>
           <FormField label="作りたいもの">
-            <Textarea defaultValue="GitHub認証、プロフィール、募集検索、応募、DM、チーム管理までを備えたMVP。" />
+            <Textarea defaultValue="メール認証、プロフィール、募集検索、応募、DM、チーム管理までを備えたMVP。" />
           </FormField>
           <div className="grid gap-4 md:grid-cols-3">
             <FormField label="開発期間">
