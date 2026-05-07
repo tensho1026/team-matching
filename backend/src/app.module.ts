@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
 
 const databaseImports = process.env.NODE_ENV === 'test' ? [] : [DatabaseModule];
 
@@ -13,6 +14,7 @@ const databaseImports = process.env.NODE_ENV === 'test' ? [] : [DatabaseModule];
       envFilePath: '.env',
     }),
     ...databaseImports,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
