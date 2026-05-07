@@ -9,13 +9,14 @@ export class AuthService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
-  async register(email: string, passwordHash: string, name: string) {
+  async register(email: string, password: string, name: string) {
     const user = this.usersRepository.create({
       email,
-      passwordHash,
+      passwordHash: password,
       name,
     });
 
     await this.usersRepository.save(user);
+    return user;
   }
 }

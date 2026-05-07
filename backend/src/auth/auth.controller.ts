@@ -8,9 +8,9 @@ export class AuthController {
   @Post('register')
   register(
     @Body('email') email: string,
-    @Body('passwordHash') passwordhash: string,
+    @Body('password') password: string,
     @Body('name') name: string,
   ) {
-    return this.authService.register(email, passwordhash, name);
+    return this.authService.register(email, password, name);
   }
 }
