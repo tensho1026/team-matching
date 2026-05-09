@@ -1,6 +1,10 @@
-import { GitBranch, Link2, UserRound } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { GitBranch, Link2, LogOut, UserRound } from 'lucide-react'
 
+import { useAuth } from '@/contexts/auth-context'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
@@ -15,11 +19,21 @@ import {
 } from '@/lib/mock-data'
 
 export function ProfilePanel() {
+  const navigate = useNavigate()
+  const { logout, user } = useAuth()
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+  async function handleLogout() {
+    setIsLoggingOut(true)
+    await logout()
+    navigate('/login', { replace: true })
+  }
+
   return (
     <section id="profile" className="space-y-4">
       <SectionHeading
         title="プロフィール"
-        description="名前、技術スタック、参加可能時間、希望スタイルの入力UI"
+        description="ログイン中のアカウント情報とプロフィール設定"
       />
       <Card>
         <CardHeader className="flex-row items-center justify-between gap-4">
@@ -28,19 +42,29 @@ export function ProfilePanel() {
               <UserRound className="size-5" />
             </div>
             <div>
-              <CardTitle>Yuki Tanaka</CardTitle>
-              <p className="text-sm text-muted-foreground">@yuki-dev</p>
+              <CardTitle>{user?.name ?? 'ユーザー'}</CardTitle>
+              <p className="text-sm text-muted-foreground">{user?.email}</p>
             </div>
           </div>
-          <Badge variant="success">参加可能</Badge>
+          <div className="flex shrink-0 items-center gap-2">
+            <Badge variant="success">参加可能</Badge>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              <LogOut />
+              {isLoggingOut ? 'ログアウト中' : 'ログアウト'}
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="grid gap-5">
           <div className="grid gap-4 md:grid-cols-2">
             <FormField label="名前">
-              <Input defaultValue="田中 優希" />
+              <Input defaultValue={user?.name ?? ''} />
             </FormField>
-            <FormField label="表示名">
-              <Input defaultValue="Yuki" />
+            <FormField label="メールアドレス">
+              <Input type="email" defaultValue={user?.email ?? ''} readOnly />
             </FormField>
           </div>
           <FormField label="自己紹介">

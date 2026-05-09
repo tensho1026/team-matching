@@ -1,14 +1,13 @@
-import { Plus, UsersRound } from 'lucide-react'
+import { UsersRound } from "lucide-react";
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { ChipList } from '@/components/app/chip-list'
-import { FormField } from '@/components/app/form-field'
-import { SectionHeading } from '@/components/app/section-heading'
-import { recruitingRoles, techStacks } from '@/lib/mock-data'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { ChipList } from "@/components/app/chip-list";
+import { FormField } from "@/components/app/form-field";
+import { SectionHeading } from "@/components/app/section-heading";
+import { recruitingRoles, techStacks } from "@/lib/mock-data";
 
 export function RecruitmentPostPanel() {
   return (
@@ -16,12 +15,6 @@ export function RecruitmentPostPanel() {
       <SectionHeading
         title="募集投稿"
         description="プロジェクト内容、募集ロール、連絡方法の投稿UI"
-        action={
-          <Button size="sm">
-            <Plus />
-            下書き保存
-          </Button>
-        }
       />
       <Card>
         <CardHeader className="flex-row items-center gap-3">
@@ -43,15 +36,15 @@ export function RecruitmentPostPanel() {
             <Textarea defaultValue="チーム開発のメンバー募集と応募管理をできるWebサービスを作ります。" />
           </FormField>
           <FormField label="作りたいもの">
-            <Textarea defaultValue="GitHub認証、プロフィール、募集検索、応募、DM、チーム管理までを備えたMVP。" />
+            <Textarea defaultValue="メール認証、プロフィール、募集検索、応募、DM、チーム管理までを備えたMVP。" />
           </FormField>
           <div className="grid gap-4 md:grid-cols-3">
             <FormField label="開発期間">
               <Input defaultValue="6週間" />
             </FormField>
-            <FormField label="稼働目安">
+            {/* <FormField label="稼働目安">
               <Input defaultValue="週8時間" />
-            </FormField>
+            </FormField> */}
             <FormField label="対象レベル">
               <Select defaultValue="beginner">
                 <option value="beginner">初心者歓迎</option>
@@ -70,26 +63,19 @@ export function RecruitmentPostPanel() {
                     className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm"
                   >
                     <span>{item.role}</span>
-                    <span className="text-muted-foreground">{item.count}</span>
                   </div>
                 ))}
               </div>
             </div>
             <div className="space-y-2">
-              <p className="text-sm font-medium text-foreground">使用予定技術</p>
+              <p className="text-sm font-medium text-foreground">
+                使用予定技術
+              </p>
               <ChipList items={techStacks.slice(0, 6)} variant="secondary" />
             </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <FormField label="GitHubリポジトリURL">
-              <Input defaultValue="https://github.com/team/devlink-board" />
-            </FormField>
-            <FormField label="Discord / Slackなどの連絡方法">
-              <Input defaultValue="Discord: devlink-team" />
-            </FormField>
           </div>
         </CardContent>
       </Card>
     </section>
-  )
+  );
 }
