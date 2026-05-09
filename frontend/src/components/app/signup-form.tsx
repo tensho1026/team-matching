@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { LockKeyhole, Mail, UserPlus, UserRound } from "lucide-react";
 
+import { API_BASE_URL } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const SIGNUP_API_URL = "http://localhost:3000/auth/register";
+const SIGNUP_API_URL = `${API_BASE_URL}/auth/register`;
 
 export function SignupForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,8 +30,6 @@ export function SignupForm() {
       password: String(formData.get("password") ?? ""),
       name: String(formData.get("name") ?? ""),
     };
-    console.log(payload);
-
     setIsSubmitting(true);
     setSubmitMessage("");
 
@@ -47,7 +46,7 @@ export function SignupForm() {
         throw new Error("signup failed");
       }
 
-      setSubmitMessage("新規登録情報を送信しました。");
+      setSubmitMessage("登録が完了しました。ログインしてください。");
     } catch {
       setSubmitMessage("送信に失敗しました。時間をおいて再度お試しください。");
     } finally {

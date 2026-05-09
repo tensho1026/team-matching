@@ -3,7 +3,6 @@ import {
   Bell,
   BriefcaseBusiness,
   CheckSquare,
-  LogIn,
   MessageSquare,
   Search,
   Send,
@@ -12,8 +11,9 @@ import {
   UserRound,
   UsersRound,
 } from 'lucide-react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 
+import { useAuth } from '@/contexts/auth-context'
 import { Avatar } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -28,7 +28,6 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: 'ダッシュボード', path: '/', icon: BriefcaseBusiness },
-  { label: 'ログイン', path: '/login', icon: LogIn },
   { label: 'プロフィール', path: '/profile', icon: UserRound },
   { label: '募集一覧', path: '/recruitments', icon: Search },
   { label: '募集投稿', path: '/recruitments/new', icon: Send },
@@ -41,6 +40,8 @@ const navItems: NavItem[] = [
 ]
 
 function Sidebar() {
+  const { user } = useAuth()
+
   return (
     <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 border-r border-border bg-card lg:flex lg:flex-col">
       <div className="flex h-16 items-center gap-3 border-b border-border px-5">
@@ -73,11 +74,13 @@ function Sidebar() {
       <div className="mt-auto border-t border-border p-4">
         <div className="rounded-md border border-border p-3">
           <div className="mb-2 flex items-center justify-between">
-            <p className="text-sm font-medium">MVP UI</p>
-            <Badge variant="outline">静的</Badge>
+            <p className="min-w-0 truncate text-sm font-medium">
+              {user?.name ?? 'ユーザー'}
+            </p>
+            <Badge variant="success">認証済み</Badge>
           </div>
-          <p className="text-xs leading-5 text-muted-foreground">
-            API、認証、状態管理なしの画面モックです。
+          <p className="truncate text-xs leading-5 text-muted-foreground">
+            {user?.email}
           </p>
         </div>
       </div>
@@ -109,6 +112,9 @@ function MobileNav() {
 }
 
 export function AppShell() {
+  const { user } = useAuth()
+  const avatarLabel = user?.name.trim().charAt(0).toUpperCase() || 'U'
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Sidebar />
@@ -139,7 +145,13 @@ export function AppShell() {
               <Button variant="outline" size="icon" aria-label="通知">
                 <Bell />
               </Button>
-              <Avatar>Y</Avatar>
+              <Link
+                to="/profile"
+                className="inline-flex rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                aria-label="プロフィール"
+              >
+                <Avatar>{avatarLabel}</Avatar>
+              </Link>
             </div>
           </div>
           <MobileNav />
