@@ -1,5 +1,6 @@
 import type { FormEvent } from "react";
 import { Send, UsersRound } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +14,7 @@ import { useAuth } from "@/contexts/auth-context";
 
 export function RecruitmentPostPanel() {
   const { token } = useAuth();
+  const navigate = useNavigate();
   console.log(token);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -34,6 +36,11 @@ export function RecruitmentPostPanel() {
       },
       body: JSON.stringify(body),
     });
+
+    if (res.ok) {
+      navigate("/", { replace: true });
+    }
+
     return res;
   };
   return (
