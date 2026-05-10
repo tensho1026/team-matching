@@ -4,57 +4,57 @@ import {
   useMemo,
   useState,
   type ReactNode,
-} from 'react'
+} from "react";
 
 import {
   AuthContext,
   type AuthContextValue,
   type AuthUser,
-} from '@/contexts/auth-context'
-import { API_BASE_URL, readApiErrorMessage } from '@/lib/api'
+} from "@/contexts/auth-context";
+import { API_BASE_URL, readApiErrorMessage } from "@/lib/api";
 
-const AUTH_TOKEN_STORAGE_KEY = 'devlink_access_token'
+const AUTH_TOKEN_STORAGE_KEY = "devlink_access_token";
 
 type AuthResponse = {
-  accessToken: string
-  user: AuthUser
-}
+  accessToken: string;
+  user: AuthUser;
+};
 
 type MeResponse = {
-  user: AuthUser
-}
+  user: AuthUser;
+};
 
 function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
+  return typeof value === "object" && value !== null;
 }
 
 function isAuthUser(value: unknown): value is AuthUser {
   return (
     isRecord(value) &&
-    typeof value.id === 'string' &&
-    typeof value.email === 'string' &&
-    typeof value.name === 'string'
-  )
+    typeof value.id === "string" &&
+    typeof value.email === "string" &&
+    typeof value.name === "string"
+  );
 }
 
 function isAuthResponse(value: unknown): value is AuthResponse {
   return (
     isRecord(value) &&
-    typeof value.accessToken === 'string' &&
+    typeof value.accessToken === "string" &&
     isAuthUser(value.user)
-  )
+  );
 }
 
 function isMeResponse(value: unknown): value is MeResponse {
-  return isRecord(value) && isAuthUser(value.user)
+  return isRecord(value) && isAuthUser(value.user);
 }
 
 function saveAuthToken(token: string) {
-  localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token)
+  localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
 }
 
 function clearAuthToken() {
-  localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY)
+  localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
 }
 
 async function fetchCurrentUser(token: string) {
@@ -62,108 +62,109 @@ async function fetchCurrentUser(token: string) {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  })
+  });
 
   if (!response.ok) {
-    throw new Error(await readApiErrorMessage(response))
+    throw new Error(await readApiErrorMessage(response));
   }
 
-  const data: unknown = await response.json()
+  const data: unknown = await response.json();
 
   if (!isMeResponse(data)) {
-    throw new Error('ログイン情報の形式が不正です')
+    throw new Error("ログイン情報の形式が不正です");
   }
 
-  return data.user
+  return data.user;
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(() =>
     localStorage.getItem(AUTH_TOKEN_STORAGE_KEY),
-  )
-  const [user, setUser] = useState<AuthUser | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  );
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
 
     async function loadUser() {
       if (!token) {
-        setUser(null)
-        setIsLoading(false)
-        return
+        setUser(null);
+        setIsLoading(false);
+        return;
       }
 
-      setIsLoading(true)
+      setIsLoading(true);
 
       try {
-        const currentUser = await fetchCurrentUser(token)
+        const currentUser = await fetchCurrentUser(token);
+        console.log(currentUser);
 
         if (isMounted) {
-          setUser(currentUser)
+          setUser(currentUser);
         }
       } catch {
         if (isMounted) {
-          clearAuthToken()
-          setToken(null)
-          setUser(null)
+          clearAuthToken();
+          setToken(null);
+          setUser(null);
         }
       } finally {
         if (isMounted) {
-          setIsLoading(false)
+          setIsLoading(false);
         }
       }
     }
 
-    void loadUser()
+    void loadUser();
 
     return () => {
-      isMounted = false
-    }
-  }, [token])
+      isMounted = false;
+    };
+  }, [token]);
 
   const login = useCallback(async (email: string, password: string) => {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-    })
+    });
 
     if (!response.ok) {
-      throw new Error(await readApiErrorMessage(response))
+      throw new Error(await readApiErrorMessage(response));
     }
 
-    const data: unknown = await response.json()
+    const data: unknown = await response.json();
 
     if (!isAuthResponse(data)) {
-      throw new Error('ログイン結果の形式が不正です')
+      throw new Error("ログイン結果の形式が不正です");
     }
 
-    saveAuthToken(data.accessToken)
-    setToken(data.accessToken)
-    setUser(data.user)
-  }, [])
+    saveAuthToken(data.accessToken);
+    setToken(data.accessToken);
+    setUser(data.user);
+  }, []);
 
   const logout = useCallback(async () => {
-    const currentToken = token
+    const currentToken = token;
 
-    clearAuthToken()
-    setToken(null)
-    setUser(null)
+    clearAuthToken();
+    setToken(null);
+    setUser(null);
 
     if (!currentToken) {
-      return
+      return;
     }
 
     await fetch(`${API_BASE_URL}/auth/logout`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${currentToken}`,
       },
-    }).catch(() => undefined)
-  }, [token])
+    }).catch(() => undefined);
+  }, [token]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -175,7 +176,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       logout,
     }),
     [isLoading, login, logout, token, user],
-  )
+  );
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
