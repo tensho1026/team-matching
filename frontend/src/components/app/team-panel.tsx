@@ -16,14 +16,14 @@ export function TeamPanel() {
         description="メンバー一覧、ロール管理、プロジェクトステータスのUI"
       />
       <Card>
-        <CardHeader className="flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <CardHeader className="flex flex-col items-start justify-between gap-3 !space-y-0 sm:flex-row sm:items-center">
+          <div className="flex min-w-0 items-center gap-3">
             <div className="flex size-10 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
               <UsersRound className="size-5" />
             </div>
             <CardTitle>DevLink Board Team</CardTitle>
           </div>
-          <div className="w-36">
+          <div className="w-full sm:w-36">
             <Select defaultValue="active">
               <option value="recruiting">募集中</option>
               <option value="active">開発中</option>
@@ -39,14 +39,14 @@ export function TeamPanel() {
                 key={member.name}
                 className="grid gap-3 rounded-md border border-border p-3 sm:grid-cols-[1fr_auto]"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-center gap-3">
                   <Avatar>{member.name.slice(0, 1)}</Avatar>
-                  <div>
+                  <div className="min-w-0">
                     <p className="font-medium">{member.name}</p>
                     <p className="text-sm text-muted-foreground">{member.role}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                   <Badge
                     variant={member.status === '募集中' ? 'warning' : 'success'}
                   >

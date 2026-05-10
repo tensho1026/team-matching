@@ -19,7 +19,7 @@ export function ApplicationPanel() {
       />
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
-          <CardHeader className="flex-row items-center gap-3">
+          <CardHeader className="flex items-center gap-3 !space-y-0">
             <div className="flex size-10 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
               <Send className="size-5" />
             </div>
@@ -47,7 +47,7 @@ export function ApplicationPanel() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex-row items-center gap-3">
+          <CardHeader className="flex items-center gap-3 !space-y-0">
             <div className="flex size-10 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
               <Clock3 className="size-5" />
             </div>
@@ -59,9 +59,9 @@ export function ApplicationPanel() {
                 key={applicant.name}
                 className="grid gap-3 rounded-md border border-border p-3 sm:grid-cols-[1fr_auto]"
               >
-                <div className="flex gap-3">
+                <div className="flex min-w-0 gap-3">
                   <Avatar>{applicant.name.slice(0, 1)}</Avatar>
-                  <div className="space-y-1">
+                  <div className="min-w-0 space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="font-medium">{applicant.name}</p>
                       <Badge variant="outline">{applicant.role}</Badge>
@@ -78,7 +78,7 @@ export function ApplicationPanel() {
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2 sm:items-start">
+                <div className="flex flex-wrap gap-2 sm:items-start sm:justify-end">
                   <Button size="sm" variant="outline">
                     <Check />
                     承認

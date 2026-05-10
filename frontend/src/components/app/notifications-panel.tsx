@@ -14,12 +14,12 @@ export function NotificationsPanel() {
         description="応募通知、承認通知、メッセージ通知、募集締切通知のUI"
       />
       <Card>
-        <CardHeader className="flex-row items-center justify-between gap-4">
+        <CardHeader className="flex flex-col items-start justify-between gap-3 !space-y-0 sm:flex-row sm:items-center">
           <CardTitle className="flex items-center gap-2">
             <BellRing className="size-5" />
             通知センター
           </CardTitle>
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" className="w-full sm:w-auto">
             すべて既読
           </Button>
         </CardHeader>
@@ -29,11 +29,11 @@ export function NotificationsPanel() {
               key={item.title}
               className="grid gap-3 rounded-md border border-border p-3 sm:grid-cols-[1fr_auto]"
             >
-              <div className="flex items-start gap-3">
+              <div className="flex min-w-0 items-start gap-3">
                 <div className="mt-0.5 flex size-8 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
                   <CheckCircle2 className="size-4" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="font-medium">{item.title}</p>
                   <p className="text-sm text-muted-foreground">{item.meta}</p>
                 </div>

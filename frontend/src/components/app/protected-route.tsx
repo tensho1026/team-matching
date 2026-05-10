@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/auth-context'
 
 function AuthLoading() {
   return (
-    <div className="grid min-h-screen place-items-center bg-background px-4 text-sm text-muted-foreground">
+    <div className="grid min-h-svh place-items-center bg-background px-3 text-sm text-muted-foreground sm:px-4">
       認証状態を確認しています
     </div>
   )

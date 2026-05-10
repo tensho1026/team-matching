@@ -23,8 +23,8 @@ export function ReviewsPanel() {
         {reviewItems.map((item) => (
           <Card key={item.project}>
             <CardHeader>
-              <div className="flex items-start justify-between gap-4">
-                <div>
+              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row">
+                <div className="min-w-0">
                   <CardTitle>{item.project}</CardTitle>
                   <CardDescription>レビュー by {item.reviewer}</CardDescription>
                 </div>
@@ -39,13 +39,17 @@ export function ReviewsPanel() {
                 {item.body}
               </p>
               <div className="grid gap-2 text-sm">
-                <div className="flex items-center gap-2 rounded-md border border-border px-3 py-2">
-                  <GitBranch className="size-4 text-muted-foreground" />
-                  github.com/team/devlink-board
+                <div className="flex min-w-0 items-center gap-2 rounded-md border border-border px-3 py-2">
+                  <GitBranch className="size-4 shrink-0 text-muted-foreground" />
+                  <span className="min-w-0 break-all">
+                    github.com/team/devlink-board
+                  </span>
                 </div>
-                <div className="flex items-center gap-2 rounded-md border border-border px-3 py-2">
-                  <ExternalLink className="size-4 text-muted-foreground" />
-                  https://devlink.example.com
+                <div className="flex min-w-0 items-center gap-2 rounded-md border border-border px-3 py-2">
+                  <ExternalLink className="size-4 shrink-0 text-muted-foreground" />
+                  <span className="min-w-0 break-all">
+                    https://devlink.example.com
+                  </span>
                 </div>
               </div>
               <div className="flex flex-wrap gap-2">

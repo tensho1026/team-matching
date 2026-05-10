@@ -36,20 +36,23 @@ export function ProfilePanel() {
         description="ログイン中のアカウント情報とプロフィール設定"
       />
       <Card>
-        <CardHeader className="flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <CardHeader className="flex flex-col items-start justify-between gap-3 !space-y-0 sm:flex-row sm:items-center">
+          <div className="flex min-w-0 items-center gap-3">
             <div className="flex size-11 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
               <UserRound className="size-5" />
             </div>
-            <div>
+            <div className="min-w-0">
               <CardTitle>{user?.name ?? 'ユーザー'}</CardTitle>
-              <p className="text-sm text-muted-foreground">{user?.email}</p>
+              <p className="break-all text-sm text-muted-foreground">
+                {user?.email}
+              </p>
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
             <Badge variant="success">参加可能</Badge>
             <Button
               variant="outline"
+              className="w-full sm:w-auto"
               onClick={handleLogout}
               disabled={isLoggingOut}
             >
