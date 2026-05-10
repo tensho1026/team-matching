@@ -413,7 +413,7 @@ export function ProfilePanel() {
                     <option value="infra">インフラ</option>
                     <option value="design">デザイン</option>
                     <option value="pm">PM</option>
-                    <option value="uiux">UI/UX</option>
+                   
                   </Select>
                 </FormField>
               </div>
