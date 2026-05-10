@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
+import { ProfilesModule } from './profiles/profiles.module';
 
 const databaseImports = process.env.NODE_ENV === 'test' ? [] : [DatabaseModule];
 
@@ -17,6 +18,7 @@ const databaseImports = process.env.NODE_ENV === 'test' ? [] : [DatabaseModule];
     ...databaseImports,
     AuthModule,
     ProjectsModule,
+    ProfilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
