@@ -22,4 +22,12 @@ export class ProjectsService {
     });
     await this.projectRepository.save(project);
   }
+
+  async getAllProjects() {
+    return await this.projectRepository.find({
+      relations: {
+        user: true,
+      },
+    });
+  }
 }

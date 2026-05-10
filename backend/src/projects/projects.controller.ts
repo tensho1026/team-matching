@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { ProjectDto } from './dto/project.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -12,5 +12,10 @@ export class ProjectsController {
   @UseGuards(JwtAuthGuard)
   create(@Body() dto: ProjectDto, @Req() req: AuthenticatedRequest) {
     return this.projectsService.createProject(dto, req.user.id);
+  }
+
+  @Get()
+  getAllProjects() {
+    return this.projectsService.getAllProjects();
   }
 }
