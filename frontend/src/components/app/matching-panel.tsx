@@ -14,8 +14,8 @@ export function MatchingPanel() {
         description="技術、ロール、活動時間、GitHub活動量の見え方"
       />
       <Card>
-        <CardHeader className="flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <CardHeader className="flex flex-col items-start justify-between gap-3 !space-y-0 sm:flex-row sm:items-center">
+          <div className="flex min-w-0 items-center gap-3">
             <div className="flex size-10 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
               <Sparkles className="size-5" />
             </div>
@@ -27,10 +27,12 @@ export function MatchingPanel() {
           <div className="grid gap-4">
             {matchingSignals.map((signal) => (
               <div key={signal.label} className="space-y-2">
-                <div className="flex items-center justify-between gap-3 text-sm">
-                  <div>
+                <div className="flex items-start justify-between gap-3 text-sm">
+                  <div className="min-w-0">
                     <p className="font-medium text-foreground">{signal.label}</p>
-                    <p className="text-muted-foreground">{signal.detail}</p>
+                    <p className="break-words text-muted-foreground">
+                      {signal.detail}
+                    </p>
                   </div>
                   <span className="font-semibold">{signal.value}%</span>
                 </div>

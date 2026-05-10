@@ -24,7 +24,7 @@ export function RecruitmentSearchPanel() {
         title="募集一覧・検索"
         description="キーワード、技術スタック、ロール、レベル、募集状態の検索UI"
       />
-      <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)]">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -78,7 +78,7 @@ export function RecruitmentSearchPanel() {
             <Card key={item.title}>
               <CardHeader className="gap-3">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
+                  <div className="min-w-0">
                     <CardTitle>{item.title}</CardTitle>
                     <CardDescription>{item.summary}</CardDescription>
                   </div>
@@ -97,7 +97,7 @@ export function RecruitmentSearchPanel() {
                 <ChipList items={item.stacks} variant="secondary" />
               </CardHeader>
               <CardContent className="grid gap-4">
-                <div className="grid gap-3 text-sm sm:grid-cols-4">
+                <div className="grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-4">
                   <div>
                     <p className="text-muted-foreground">対象レベル</p>
                     <p className="font-medium">{item.level}</p>
@@ -112,7 +112,9 @@ export function RecruitmentSearchPanel() {
                   </div>
                   <div>
                     <p className="text-muted-foreground">募集ロール</p>
-                    <p className="font-medium">{item.roles.join(' / ')}</p>
+                    <p className="break-words font-medium">
+                      {item.roles.join(' / ')}
+                    </p>
                   </div>
                 </div>
                 <div className="space-y-2">

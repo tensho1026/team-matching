@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { LockKeyhole, Mail, UserPlus, UserRound } from "lucide-react";
 
-import { API_BASE_URL } from "@/lib/api";
+import { API_BASE_URL, readApiErrorMessage } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,21 +17,26 @@ import { Label } from "@/components/ui/label";
 
 const SIGNUP_API_URL = `${API_BASE_URL}/auth/register`;
 
+type SubmitStatus = {
+  type: "success" | "error";
+  message: string;
+};
+
 export function SignupForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState("");
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const payload = {
-      email: String(formData.get("email") ?? ""),
+      email: String(formData.get("email") ?? "").trim(),
       password: String(formData.get("password") ?? ""),
-      name: String(formData.get("name") ?? ""),
+      name: String(formData.get("name") ?? "").trim(),
     };
     setIsSubmitting(true);
-    setSubmitMessage("");
+    setSubmitStatus(null);
 
     try {
       const response = await fetch(SIGNUP_API_URL, {
@@ -43,12 +48,21 @@ export function SignupForm() {
       });
 
       if (!response.ok) {
-        throw new Error("signup failed");
+        throw new Error(await readApiErrorMessage(response));
       }
 
-      setSubmitMessage("登録が完了しました。ログインしてください。");
-    } catch {
-      setSubmitMessage("送信に失敗しました。時間をおいて再度お試しください。");
+      setSubmitStatus({
+        type: "success",
+        message: "登録が完了しました。ログインしてください。",
+      });
+    } catch (error) {
+      setSubmitStatus({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "送信に失敗しました。時間をおいて再度お試しください。",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -57,14 +71,14 @@ export function SignupForm() {
   return (
     <Card id="signup" className="overflow-hidden">
       <CardHeader className="border-b border-border bg-card">
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-1.5">
+        <div className="flex items-start justify-between gap-3 sm:gap-4">
+          <div className="min-w-0 space-y-1.5">
             <CardTitle>新規登録</CardTitle>
             <CardDescription>
               名前、メールアドレス、パスワードを入力してください。
             </CardDescription>
           </div>
-          <div className="flex size-10 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
             <UserPlus className="size-5" />
           </div>
         </div>
@@ -111,6 +125,7 @@ export function SignupForm() {
                 autoComplete="new-password"
                 className="pl-9"
                 placeholder="password"
+                minLength={5}
                 required
               />
             </div>
@@ -123,9 +138,15 @@ export function SignupForm() {
             <UserPlus />
             {isSubmitting ? "送信中" : "新規登録"}
           </Button>
-          {submitMessage && (
-            <p className="rounded-md border border-border bg-muted px-3 py-2 text-sm text-muted-foreground">
-              {submitMessage}
+          {submitStatus && (
+            <p
+              className={
+                submitStatus.type === "error"
+                  ? "whitespace-pre-line rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+                  : "rounded-md border border-border bg-muted px-3 py-2 text-sm text-muted-foreground"
+              }
+            >
+              {submitStatus.message}
             </p>
           )}
           <p className="border-t border-border pt-4 text-center text-sm text-muted-foreground">

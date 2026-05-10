@@ -11,7 +11,7 @@ import {
   type AuthContextValue,
   type AuthUser,
 } from '@/contexts/auth-context'
-import { API_BASE_URL } from '@/lib/api'
+import { API_BASE_URL, readApiErrorMessage } from '@/lib/api'
 
 const AUTH_TOKEN_STORAGE_KEY = 'devlink_access_token'
 
@@ -49,25 +49,6 @@ function isMeResponse(value: unknown): value is MeResponse {
   return isRecord(value) && isAuthUser(value.user)
 }
 
-async function readErrorMessage(response: Response) {
-  const data: unknown = await response.json().catch(() => null)
-
-  if (isRecord(data)) {
-    if (typeof data.message === 'string') {
-      return data.message
-    }
-
-    if (
-      Array.isArray(data.message) &&
-      data.message.every((message) => typeof message === 'string')
-    ) {
-      return data.message.join('\n')
-    }
-  }
-
-  return '通信に失敗しました'
-}
-
 function saveAuthToken(token: string) {
   localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token)
 }
@@ -84,7 +65,7 @@ async function fetchCurrentUser(token: string) {
   })
 
   if (!response.ok) {
-    throw new Error(await readErrorMessage(response))
+    throw new Error(await readApiErrorMessage(response))
   }
 
   const data: unknown = await response.json()
@@ -151,7 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
 
     if (!response.ok) {
-      throw new Error(await readErrorMessage(response))
+      throw new Error(await readApiErrorMessage(response))
     }
 
     const data: unknown = await response.json()

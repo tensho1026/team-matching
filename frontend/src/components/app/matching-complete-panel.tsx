@@ -7,8 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 export function MatchingCompletePanel() {
   return (
     <Card>
-      <CardHeader className="flex-row items-start justify-between gap-4">
-        <div className="space-y-1">
+      <CardHeader className="flex flex-col items-start justify-between gap-3 !space-y-0 sm:flex-row">
+        <div className="min-w-0 space-y-1">
           <CardTitle className="flex items-center gap-2">
             <CheckCircle2 className="size-5 text-success" />
             マッチング完了

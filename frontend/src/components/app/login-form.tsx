@@ -61,14 +61,14 @@ export function LoginForm() {
   return (
     <Card id="login" className="overflow-hidden">
       <CardHeader className="border-b border-border bg-card">
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-1.5">
+        <div className="flex items-start justify-between gap-3 sm:gap-4">
+          <div className="min-w-0 space-y-1.5">
             <CardTitle>ログイン</CardTitle>
             <CardDescription>
               登録済みのメールアドレスとパスワードを入力してください。
             </CardDescription>
           </div>
-          <div className="flex size-10 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
             <LogIn className="size-5" />
           </div>
         </div>

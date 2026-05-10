@@ -53,7 +53,7 @@ function Sidebar() {
           <p className="text-xs text-muted-foreground">Team Matching</p>
         </div>
       </div>
-      <nav className="grid gap-1 p-3">
+      <nav className="grid gap-1 overflow-y-auto p-3">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
@@ -90,7 +90,7 @@ function Sidebar() {
 
 function MobileNav() {
   return (
-    <div className="flex gap-2 overflow-x-auto border-b border-border bg-card px-4 py-2 lg:hidden">
+    <div className="flex snap-x gap-2 overflow-x-auto border-b border-border bg-card px-3 py-2 sm:px-4 lg:hidden">
       {navItems.map((item) => (
         <NavLink
           key={item.path}
@@ -98,7 +98,7 @@ function MobileNav() {
           end={item.path === '/'}
           className={({ isActive }) =>
             cn(
-              'inline-flex h-9 shrink-0 items-center gap-2 rounded-md border border-border px-3 text-sm text-muted-foreground',
+              'inline-flex h-9 shrink-0 snap-start items-center gap-2 rounded-md border border-border px-3 text-sm text-muted-foreground',
               isActive && 'bg-muted font-medium text-foreground',
             )
           }
@@ -116,29 +116,29 @@ export function AppShell() {
   const avatarLabel = user?.name.trim().charAt(0).toUpperCase() || 'U'
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-svh bg-background text-foreground">
       <Sidebar />
       <div className="lg:pl-64">
         <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur">
-          <div className="flex min-h-16 flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-            <div className="flex items-center gap-3">
+          <div className="flex min-h-16 flex-col gap-3 px-3 py-3 sm:px-4 lg:px-8 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex min-w-0 items-center gap-3">
               <div className="flex size-10 items-center justify-center rounded-md bg-primary text-primary-foreground lg:hidden">
                 <BriefcaseBusiness className="size-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-2xl font-semibold leading-tight">
+                  <h1 className="break-words text-xl font-semibold leading-tight sm:text-2xl">
                     チーム開発マッチング
                   </h1>
                   <Badge variant="success">UI Prototype</Badge>
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="hidden text-sm text-muted-foreground sm:block">
                   募集、検索、応募、DM、実績、チーム管理をページ別に分けた静的UI
                 </p>
               </div>
             </div>
-            <div className="grid gap-2 sm:grid-cols-[260px_auto_auto]">
-              <div className="relative">
+            <div className="grid w-full grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 xl:w-auto xl:grid-cols-[minmax(220px,300px)_auto_auto]">
+              <div className="relative min-w-0">
                 <Search className="absolute left-3 top-3 size-4 text-muted-foreground" />
                 <Input className="pl-9" placeholder="募集やメンバーを検索" />
               </div>
@@ -156,7 +156,7 @@ export function AppShell() {
           </div>
           <MobileNav />
         </header>
-        <main className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-8">
+        <main className="mx-auto w-full max-w-7xl overflow-x-hidden px-3 py-4 sm:px-4 sm:py-6 lg:px-8">
           <Outlet />
         </main>
       </div>
